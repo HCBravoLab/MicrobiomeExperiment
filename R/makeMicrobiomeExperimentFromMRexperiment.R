@@ -1,6 +1,8 @@
 #' Coerce from \code{\link[metagenomeSeq]{MRexperiment}} to \code{\link[MicrobiomeExperiment]{MicrobiomeExperiment}}
 #'
-#' @param obj object of type \code{\link[eetagenomeSeq]{MRexperiment}}
+#' @param obj object of type \code{\link[metagenomeSeq]{MRexperiment}}
+#'
+#' @import metagenomeSeq
 #'
 #' @export
 #' @examples
