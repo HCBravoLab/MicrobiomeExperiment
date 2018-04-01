@@ -36,8 +36,12 @@ MicrobiomeExperiment <- function(assays = SimpleList(),
     rowData = MicrobiomeFeatures(), colData = DataFrame(),
     metadata = list()) {
 
-    SummarizedExperiment <- SummarizedExperiment(assays = assays,
-        colData = colData, metadata = metadata)
+    SummarizedExperiment <-
+        if (!is(assays, "SummarizedExperiment"))
+            SummarizedExperiment(assays = assays, colData = colData,
+                metadata = metadata)
+        else
+            assays
 
     .MicrobiomeExperiment(SummarizedExperiment, rowData = rowData)
 }
