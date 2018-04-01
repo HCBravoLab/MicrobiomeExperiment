@@ -4,6 +4,7 @@
 #'
 #' @import metagenomeSeq
 #'
+#' @return An object of class \code{\link[MicrobiomeExperiment]{MicrobiomeExperiment}}
 #' @export
 #' @examples
 #' if(requireNameSpace("metagenomeSeq")) {
