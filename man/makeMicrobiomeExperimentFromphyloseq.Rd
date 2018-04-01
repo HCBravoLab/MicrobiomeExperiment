@@ -19,6 +19,7 @@ Coerce phyloseq object
 if (requireNamespace("phyloseq")) {
     data(GlobalPatterns)
     as(GlobalPatterns, "MicrobiomeExperiment")
-    makeMicrobiomeExperimentFromphyloseq(GlobalPatterns)
+    data(enterotype)
+    as(enterotype, "MicrobiomeExperiment")
 }
 }
