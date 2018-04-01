@@ -8,3 +8,7 @@
 MicrobiomeFeatures <- function() {
     .MicrobiomeFeatures()
 }
+
+MicrobiomeFeatures <- function(taxa, tree=NULL, seq=NULL, metadata=list()) {
+    metagenomeFeatures::mgFeatures(taxa, tree, seq, metadata)
+}

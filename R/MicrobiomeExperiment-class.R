@@ -6,6 +6,7 @@
 #'
 #' It supports (most) of the interface to phyloseq objects
 #'
+#' @include MicrobiomeFeatures-class.R
 #' @importClassesFrom metagenomeFeatures mgFeatures
 #' @importClassesFrom SummarizedExperiment SummarizedExperiment
 #'
