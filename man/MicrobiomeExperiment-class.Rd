@@ -5,7 +5,12 @@
 \alias{MicrobiomeExperiment-class}
 \title{MicrobiomeExperiment-class}
 \description{
-MicrobiomeExperiment-class
+SummarizedExperiment-like class for microbiome data. rowData is a
+MicrobiomeFeatures object LINK so it includes: a taxonomy table (DataFrame),
+optional phylogentic tree (phylo object), and a sequence database.
+}
+\details{
+It supports (most) of the interface to phyloseq objects
 }
 \examples{
 
@@ -17,8 +22,10 @@ pd <- DataFrame(a=letters[1:4], b=1:4)
 numcounts <- nrow(mock_mgF) * 4
 counts <- matrix(sample(1:1000,numcounts,replace=TRUE), nr=nrow(mock_mgF), nc=4)
 
+#mgf <- as(mock_mgF, "MetagenomicFeatures")
+mgf <- mock_mgF
 MicrobiomeExperiment(assays=SimpleList(counts=counts),
-rowData=mock_mgF,
+rowData=mgf,
 colData=pd
 )
 
