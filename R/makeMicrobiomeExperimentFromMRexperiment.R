@@ -2,8 +2,6 @@
 #'
 #' @param obj object of type \code{\link[metagenomeSeq]{MRexperiment}}
 #'
-#' @import metagenomeSeq
-#'
 #' @return An object of class \code{\link[MicrobiomeExperiment]{MicrobiomeExperiment}}
 #' @export
 #' @examples

@@ -2,7 +2,6 @@
 #'
 #' @param file biom file location
 #'
-#' @importMethodsFrom biomformat read_biom
 #' @return An object of class \code{\link[MicrobiomeExperiment]{MicrobiomeExperiment}}
 #'
 #' @export
@@ -20,7 +19,6 @@ loadFromBiom <- function(file) {
 #'
 #' @param obj object of type \code{\link[biomformat]{biom}}
 #'
-#' @import biomformat
 #' @return An object of class \code{\link[MicrobiomeExperiment]{MicrobiomeExperiment}}
 #'
 #' @export
