@@ -46,3 +46,26 @@ MicrobiomeExperiment <- function(assays = SimpleList(),
     .MicrobiomeExperiment(SummarizedExperiment, rowData = rowData)
 }
 
+########
+# phyloseq legacy setters/getters
+
+# get otu table
+.get_otu_table <- function(obj) { assay(obj) }
+setMethod("otu_table", signature=c("MicrobiomeExperiment"), .get_otu_table)
+
+# set otu table
+.set_otu_table <- function(obj, value) {
+    assay(obj) <- value
+}
+setReplaceMethod("otu_table", signature=c("MicrobiomeExperiment", "matrix"),
+                 .set_otu_table)
+
+# get taxonomy table
+.get_tax_table <- function(obj) { rowData(obj) }
+setMethod("tax_table", signature=c("MicrobiomeExperiment"), .get_tax_table)
+
+# set taxonomy table
+.set_tax_table <- function(obj, value) {
+    # TODO: harmonize new value with existing MicrobiomeFeatures value
+    obj@elementMetadata <- MicrobiomeFeatures(value)
+}
