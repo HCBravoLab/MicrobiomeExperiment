@@ -8,18 +8,21 @@
 #' if (requireNamespace("phyloseq")) {
 #'     data(GlobalPatterns)
 #'     as(GlobalPatterns, "MicrobiomeExperiment")
-#'     makeMicrobiomeExperimentFromphyloseq(GlobalPatterns)
+#'     data(enterotype)
+#'     as(enterotype, "MicrobiomeExperiment")
 #' }
 makeMicrobiomeExperimentFromphyloseq <- function(object) {
-    tree <- MicrobiomeFeatures(taxa = phyloseq::tax_table(object)@.Data,
-                               tree = phyloseq::phy_tree(object))
+    mf <- MicrobiomeFeatures(taxa = object@tax_table@.Data)
+    if(!is.null(object@phy_tree)){
+        mf@refDbTree <- object@phy_tree
+    }
     if (!is.null(object@refseq)) {
-        tree@refDbSeq <- object@refseq
+        mf@refDbSeq <- object@refseq
     }
     MicrobiomeExperiment(
-        assays = SimpleList(counts = phyloseq::otu_table(object)@.Data),
-        colData = data.frame(phyloseq::sample_data(object)),
-        rowData = tree
+        assays = SimpleList(counts = object@otu_table@.Data),
+        colData = data.frame(object@sam_data),
+        rowData = mf
     )
 }
 
