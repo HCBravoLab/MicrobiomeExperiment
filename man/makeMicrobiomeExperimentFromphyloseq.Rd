@@ -17,9 +17,11 @@ Coerce phyloseq object
 }
 \examples{
 if (requireNamespace("phyloseq")) {
-    data(GlobalPatterns)
+    data(GlobalPatterns, package="phyloseq")
     as(GlobalPatterns, "MicrobiomeExperiment")
-    data(enterotype)
+    data(enterotype, package="phyloseq")
     as(enterotype, "MicrobiomeExperiment")
+    data(esophagus, package="phyloseq")
+    as(esophagus, "MicrobiomeExperiment")
 }
 }
