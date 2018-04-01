@@ -6,7 +6,7 @@
 \title{The MicrobiomeExperiment representation class}
 \usage{
 MicrobiomeExperiment(assays = SimpleList(), rowData = MicrobiomeFeatures(),
-  colData = DataFrame(), metadata = list())
+  ...)
 }
 \description{
 SummarizedExperiment-like class for microbiome data. rowData is

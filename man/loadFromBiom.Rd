@@ -9,6 +9,9 @@ loadFromBiom(file)
 \arguments{
 \item{file}{biom file location}
 }
+\value{
+An object of class \code{\link[MicrobiomeExperiment]{MicrobiomeExperiment}}
+}
 \description{
 load biom file into a \code{\link[MicrobiomeExperiment]{MicrobiomeExperiment}}
 }

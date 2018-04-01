@@ -9,6 +9,9 @@ makeMicrobiomeExperimentFromBiom(obj)
 \arguments{
 \item{obj}{object of type \code{\link[biomformat]{biom}}}
 }
+\value{
+An object of class \code{\link[MicrobiomeExperiment]{MicrobiomeExperiment}}
+}
 \description{
 coerce \code{\link[biomformat]{biom}} into a \code{\link[MicrobiomeExperiment]{MicrobiomeExperiment}}
 }

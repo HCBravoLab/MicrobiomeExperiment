@@ -9,6 +9,9 @@ makeMicrobiomeExperimentFromMRexperiment(obj)
 \arguments{
 \item{obj}{object of type \code{\link[metagenomeSeq]{MRexperiment}}}
 }
+\value{
+An object of class \code{\link[MicrobiomeExperiment]{MicrobiomeExperiment}}
+}
 \description{
 Coerce from \code{\link[metagenomeSeq]{MRexperiment}} to \code{\link[MicrobiomeExperiment]{MicrobiomeExperiment}}
 }
