@@ -1,13 +1,13 @@
 ###############################################
-#' metagenomeSE Package.
+#' MicrobiomeExperiment Package.
 #'
-#' Package defining metagenmeSE class and methods
+#' Package defining MicrobiomeExperiment class and methods
 #'
-#' @name metagenomeSE-package
+#' @name MicrobiomeExperiment-package
 #' @author Nathan D. Olson \email{nolson@@umiacs.umd.edu}
 #' @docType package
 #' @keywords package
-#' @seealso \link[metagenomeSE]{mgSE-class}
+#' @seealso \link[MicrobiomeExperiment]{MicrobiomeExperiment-class}
 #' @examples
 #' print("We have a package!")
 NA
