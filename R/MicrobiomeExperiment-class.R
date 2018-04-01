@@ -38,18 +38,18 @@
 #' @aliases MicrobiomeExperiment-class
 #' @export
 MicrobiomeExperiment <- function(assays = SimpleList(),
-    rowData = MicrobiomeFeatures(), colData = DataFrame(),
-    metadata = list()) {
+    rowData = MicrobiomeFeatures(), ...) {
+
+    if (is.data.frame(rowData) || is(rowData, "DataFrame"))
+        rowData <- as(rowData, "MicrobiomeFeatures")
 
     SummarizedExperiment <-
         if (!is(assays, "SummarizedExperiment"))
-            SummarizedExperiment(assays = assays, colData = colData,
-                metadata = metadata)
+            SummarizedExperiment(assays = assays, ...)
         else
             assays
 
     .MicrobiomeExperiment(SummarizedExperiment, rowData = rowData)
 }
-
 
 
