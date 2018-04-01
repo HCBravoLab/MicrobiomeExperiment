@@ -6,6 +6,7 @@
 #'
 #' It supports (most) of the interface to phyloseq objects
 #'
+#' @importClassesFrom metagenomeFeatures mgFeatures
 #' @importClassesFrom SummarizedExperiment SummarizedExperiment
 #'
 #' @examples
@@ -18,15 +19,25 @@
 #' numcounts <- nrow(mock_mgF) * 4
 #' counts <- matrix(sample(1:1000,numcounts,replace=TRUE), nr=nrow(mock_mgF), nc=4)
 #'
-#' #mgf <- as(mock_mgF, "MetagenomicFeatures")
-#' mgf <- mock_mgF
 #' MicrobiomeExperiment(assays=SimpleList(counts=counts),
-#' rowData=mgf,
+#' rowData=mock_mgF,
 #' colData=pd
 #' )
 #'
-#setClass("MicrobiomeExperiment",
-#         contains="SummarizedExperiment",
-#         representation(rowData="MicrobiomeFeatures"))
+.MicrobiomeExperiment <- setClass("MicrobiomeExperiment",
+    contains="SummarizedExperiment",
+    representation(
+        rowData="MicrobiomeFeatures"
+    )
+)
 
+MicrobiomeExperiment <- function(assays = SimpleList(),
+    rowData = MicrobiomeFeatures(), colData = DataFrame(),
+    metadata = list()) {
+
+    SummarizedExperiment <- SummarizedExperiment(assays = assays,
+        colData = colData, metadata = metadata)
+
+    .MicrobiomeExperiment(SummarizedExperiment, rowData = rowData)
+}
 

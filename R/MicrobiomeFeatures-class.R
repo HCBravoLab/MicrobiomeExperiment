@@ -2,6 +2,9 @@
 #'
 #' @importClassesFrom metagenomeFeatures mgFeatures
 #'
-setClass("MicrobiomeFeatures",
-         contains="mgFeatures")
+.MicrobiomeFeatures <- setClass("MicrobiomeFeatures",
+    contains = "mgFeatures")
 
+MicrobiomeFeatures <- function() {
+    .MicrobiomeFeatures()
+}
