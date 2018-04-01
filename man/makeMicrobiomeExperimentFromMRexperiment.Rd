@@ -7,7 +7,7 @@
 makeMicrobiomeExperimentFromMRexperiment(obj)
 }
 \arguments{
-\item{obj}{object of type \code{\link[eetagenomeSeq]{MRexperiment}}}
+\item{obj}{object of type \code{\link[metagenomeSeq]{MRexperiment}}}
 }
 \description{
 Coerce from \code{\link[metagenomeSeq]{MRexperiment}} to \code{\link[MicrobiomeExperiment]{MicrobiomeExperiment}}
