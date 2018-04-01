@@ -1,8 +1,18 @@
-#' MicrobiomeExperiment-class
+## Class constructor
+.MicrobiomeExperiment <- setClass("MicrobiomeExperiment",
+    contains="SummarizedExperiment",
+    representation(
+        rowData="MicrobiomeFeatures"
+    )
+)
+
 #'
-#' SummarizedExperiment-like class for microbiome data. rowData is a
-#' MicrobiomeFeatures object LINK so it includes: a taxonomy table (DataFrame),
-#' optional phylogentic tree (phylo object), and a sequence database.
+#' The MicrobiomeExperiment representation class
+#'
+#' SummarizedExperiment-like class for microbiome data. rowData is
+#' a MicrobiomeFeatures object LINK so it includes: a taxonomy table
+#' (DataFrame), #' optional phylogentic tree (phylo object), and a sequence
+#' database.
 #'
 #' It supports (most) of the interface to phyloseq objects
 #'
@@ -25,13 +35,8 @@
 #' colData=pd
 #' )
 #'
-.MicrobiomeExperiment <- setClass("MicrobiomeExperiment",
-    contains="SummarizedExperiment",
-    representation(
-        rowData="MicrobiomeFeatures"
-    )
-)
-
+#' @aliases MicrobiomeExperiment-class
+#' @export
 MicrobiomeExperiment <- function(assays = SimpleList(),
     rowData = MicrobiomeFeatures(), colData = DataFrame(),
     metadata = list()) {
@@ -45,4 +50,6 @@ MicrobiomeExperiment <- function(assays = SimpleList(),
 
     .MicrobiomeExperiment(SummarizedExperiment, rowData = rowData)
 }
+
+
 
