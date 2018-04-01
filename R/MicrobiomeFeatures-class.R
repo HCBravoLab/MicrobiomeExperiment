@@ -1,14 +1,15 @@
+## Class constructor
+.MicrobiomeFeatures <- setClass("MicrobiomeFeatures",
+    contains = "mgFeatures")
+
 #' Alias for mgFeatures class from metagenomeFeatures package
 #'
 #' @importClassesFrom metagenomeFeatures mgFeatures
 #'
-.MicrobiomeFeatures <- setClass("MicrobiomeFeatures",
-    contains = "mgFeatures")
-
-MicrobiomeFeatures <- function() {
-    .MicrobiomeFeatures()
-}
-
-MicrobiomeFeatures <- function(taxa, tree=NULL, seq=NULL, metadata=list()) {
-    as(metagenomeFeatures::mgFeatures(taxa, tree, seq, metadata), "MicrobiomeFeatures")
+#' @aliases MicrobiomeFeatures-class
+#' @export
+MicrobiomeFeatures <- function(taxa = DataFrame(), tree=NULL,
+    seq=NULL, metadata=list()) {
+    mgF <- metagenomeFeatures::mgFeatures(taxa, tree, seq, metadata)
+    .MicrobiomeFeatures(mgF)
 }

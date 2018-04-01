@@ -4,8 +4,8 @@
 #'
 #' @return An object of class MicrobiomeExperiment
 #' @export
-#' @example
-#' if(requireNamespace("phyloseq")){
+#' @examples
+#' if (requireNamespace("phyloseq")) {
 #'     data(GlobalPatterns)
 #'     as(GlobalPatterns, "MicrobiomeExperiment")
 #'     makeMicrobiomeExperimentFromphyloseq(GlobalPatterns)
