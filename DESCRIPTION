@@ -21,7 +21,6 @@ Collate:
     'MicrobiomeFeatures-class.R'
     'MicrobiomeExperiment-class.R'
     'MicrobiomeExperiment.R'
-    'allData.R'
     'loadbiom.R'
     'makeMicrobiomeExperimentFromMRexperiment.R'
     'makeMicrobiomeExperimentFromphyloseq.R'
