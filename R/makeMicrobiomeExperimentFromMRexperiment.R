@@ -1,8 +1,6 @@
-#' Coercion methods
+#' Coerce from \code{\link[metagenomeSeq]{MRexperiment}} to \code{\link[MicrobiomeExperiment]{MicrobiomeExperiment}}
 #'
-#' Coerce from \code{\link[MetagenomeSeq]{MRexperiment}}
-#'
-#' @param obj obj of \code{\link[MetagenomeSeq]{MRexperiment}}
+#' @param obj object of type \code{\link[eetagenomeSeq]{MRexperiment}}
 #'
 #' @export
 #' @examples
