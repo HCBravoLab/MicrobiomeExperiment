@@ -5,8 +5,8 @@
 \alias{MicrobiomeExperiment-class}
 \title{The MicrobiomeExperiment representation class}
 \usage{
-MicrobiomeExperiment(assays = SimpleList(), rowData = MicrobiomeFeatures(),
-  ...)
+MicrobiomeExperiment(assays = SimpleList(),
+  rowData = MicrobiomeFeatures(), ...)
 }
 \description{
 SummarizedExperiment-like class for microbiome data. rowData is

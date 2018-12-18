@@ -1,6 +1,6 @@
 ## Class constructor
 .MicrobiomeExperiment <- setClass("MicrobiomeExperiment",
-    contains="SummarizedExperiment",
+    contains=c("SummarizedExperiment"), #maybe include TreeSummarizedExperiment?
     representation(
         rowData="MicrobiomeFeatures"
     )
