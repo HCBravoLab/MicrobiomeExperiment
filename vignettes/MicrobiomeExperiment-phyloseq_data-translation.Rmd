@@ -1,0 +1,122 @@
+---
+title: "MicrobiomeExperiment/phyloseq low-level data translation"
+author: "Domenick Braccia"
+date: "12/12/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+The purpose of this markdown file is to creat a phyloseq object and a MicrobiomeExperiment object from the same data and show how to use base, SE or mgFeatures operations to supplement standard phyloseq functions.
+
+## Getiting started
+loading libraries and data to be used througout the document
+```{r}
+# PACKAGES
+library(metagenomeSeq)
+library(phyloseq)
+library(TreeSummarizedExperiment)
+
+### DATA
+# first thought about doing it with mouseData
+data(mouseData)
+taxa_table <- fData(mouseData)
+tmp <- MicrobiomeFeatures(taxa = taxa_table)
+#tmp <- MicrobiomeExperiment(mouseData)
+
+#but then wanted to do it example date from mgF bc it has seqs and metadata
+# code from mgFeatures example... example data is mock_mgF
+library(metagenomeFeatures)
+data(mock_mgF)
+sampleNames <- letters[1:4]
+pd <- DataFrame(a=letters[1:4], b=1:4)
+numcounts <- nrow(mock_mgF) * 4
+counts <- matrix(sample(1:1000,numcounts,replace=TRUE), nr=nrow(mock_mgF), nc=4)
+taxa_table <- DataFrame(mock_mgF@listData)
+taxa_table <- taxa_table[, c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species", "OTU")]
+tree_index <- TreeIndex(as.data.table(taxa_table))
+mbF <- MicrobiomeFeatures(tree_index, tree = mock_mgF@refDbTree, seq = mock_mgF@refDbSeq, metadata = mock_mgF@metadata)
+MicrobiomeExperiment(assays=SimpleList(counts=counts),
+                     rowData=mock_mgF,
+                     colData=pd)
+```
+`[` | Standard extraction operator. Works on `otu_table`, `sample_data`, and `taxonomyTable`
+```{r}
+
+```
+`access` | General slot accessor function for MicrobiomeExperiment-package
+```{r}
+# access() # from phyloseq
+# slot() # from base
+```
+`get_taxa` | Abundance values of all taxa in sample `i'
+```{r}
+
+```
+`get_sample` | Abundance values of taxa `i' for all samples
+```{r}
+
+```
+`get_taxa_unique` | A unique vector of the observed taxa at a particular taxonomic rank
+```{r}
+
+```
+`get_variable` | An individual sample variable vector/factor
+```{r}
+
+```
+`nsamples` | Get the number of samples described by an object
+```{r}
+
+```
+`ntaxa` | get the number of OTUs (taxa) described by an object
+```{r}
+
+```
+`otu_table` | build or access otu_table objects
+```{r}
+
+```
+`rank_names` | Get the names of available taxonomic ranks
+```{r}
+
+```
+`sample_data` | build or access `sample_data` objects
+```{r}
+
+```
+`sample_names` | The names of all samples
+```{r}
+
+```
+`taxa_names` | The names of all taxa
+```{r}
+
+```
+`sample_sums` | The sum of the abundance values of each sample
+```{r}
+
+```
+`sample_variables` | The names of sample variables
+```{r}
+
+```
+`taxa_sums` | The sum of the abundance values of each taxa
+```{r}
+
+```
+`taxa_are_rows` | `TRUE` if taxa are row indices in `otu_table`
+```{r}
+
+```
+`tax_table` | A taxonomy table
+```{r}
+
+```
+`phy_tree` | Access the tree contained in a MicrobiomeExperiment object
+```{r}
+
+```
+
