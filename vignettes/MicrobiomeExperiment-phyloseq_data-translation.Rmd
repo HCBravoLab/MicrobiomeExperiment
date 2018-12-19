@@ -1,23 +1,33 @@
 ---
 title: "MicrobiomeExperiment/phyloseq low-level data translation"
 author: "Domenick Braccia"
-date: "12/18/2018"
-output: html_document
+date: "12/19/2018"
+output:
+  BiocStyle::html_document:
+    fig_height: 7
+    fig_width: 10
+    toc: yes
+    toc_depth: 2
+    number_sections: true
 ---
+<!--
+%% \VignetteEngine{knitr::rmarkdown}
+%% \VignetteIndexEntry{MicrobiomeExperiment basics vignette}
+-->
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-
+# Introduction
 The purpose of this markdown file is to show how to use base, SummarizedExperiment or metagenomeFeatures operations to perform standard phyloseq functions.
 
-## Getiting Started
-The dataset being used throughout this file is one of the examples from the metagenomeFeatures package named `mock_mgF`.
+The dataset being used throughout this file is one of the examples from the [metagenomeFeatures package](http://bioconductor.org/packages/release/bioc/html/metagenomeFeatures.html) named `mock_mgF`.
+
+# Making MicrobiomeExperiment object
 ```{r, warning=FALSE, message=FALSE}
 # PACKAGES
 library(S4Vectors)
 #library(metagenomeSeq) # only needed if mouseData is being used
-library(TreeSummarizedExperiment)
 library(metagenomeFeatures)
 library(TreeSummarizedExperiment)
 library(MicrobiomeExperiment)
@@ -43,7 +53,7 @@ MBExp <- MicrobiomeExperiment(assays=SimpleList(counts=counts),
                      rowData = mbF,
                      colData = pd)
 
-# ### using mouseData ###
+# ## using mouseData ##
 # library(metagenomeSeq)
 # data(mouseData)
 # 
@@ -53,10 +63,10 @@ MBExp <- MicrobiomeExperiment(assays=SimpleList(counts=counts),
 # tree <- TreeIndex(taxTab)
 # mbiome <- TreeSummarizedExperiment(SimpleList(counts=counts),
 #                                    rowData=tree)
-# #######################
+# #####################
 
 ```
-Making corresponding phyloseq object from `mock_mgF` data
+# Making corresponding phyloseq object
 ```{r, message=FALSE, warning=FALSE}
 library(phyloseq)
 # building a phyloseq object from raw data
@@ -66,68 +76,69 @@ tax1 <- tax_table(taxa_table)
 PHYExp <- phyloseq(otu1, sam1, tax1)
 ```
 
-#### `[` | Standard extraction operator. Works on `otu_table`, `sample_data`, and `taxonomyTable`
+# Testing each function
+## `[` | Standard extraction operator. Works on `otu_table`, `sample_data`, and `taxonomyTable`
 ```{r}
 # phyloseq
-PHYExp@otu_table[, 1]
-PHYExp@sam_data[, 1]
-PHYExp@tax_table[, 1]
+otu_table(PHYExp)[, 1]
+sample_data(PHYExp)[, 1]
+tax_table(PHYExp)[, 1]
 
 # MicrobiomeExperiment
-MBExp@assays[[1]][, 1]
-MBExp@colData[, 1]
-MBExp@rowData@hierarchy_tree[, 2]
+assays(MBExp)[[1]][, 1]
+colData(MBExp)[, 1]
+rowData(MBExp)@hierarchy_tree[, 2]
 ```
-#### `access` | General slot accessor function for MicrobiomeExperiment-package
+## `access` | General slot accessor function for MicrobiomeExperiment-package
 ```{r}
 # phyloseq
 access(PHYExp, "otu_table", errorIfNULL = FALSE)
 # MicrobiomeExperiment
 slot(MBExp, "assays")
 ```
-#### `get_taxa` | Abundance values of all taxa in sample `i'
+## `get_taxa` | Abundance values of all taxa in sample `i`
 ```{r}
 # phyloseq
 get_taxa(PHYExp, 1)
 # MicrobiomeExperiment
-MBExp@assays[[1]][, 1]
+assays(MBExp)[[1]][, 1]
 ```
-#### `get_sample` | Abundance values of taxa `i' for all samples
+## `get_sample` | Abundance values of taxa `i` for all samples
 ```{r}
 # phyloseq
 get_sample(PHYExp, 1)
 # MicrobiomeExperiment
-MBExp@assays[[1]][1, ]
+assays(MBExp)[[1]][1, ]
 ```
-#### `get_taxa_unique` | A unique vector of the observed taxa at a particular taxonomic rank
+## `get_taxa_unique` | A unique vector of the observed taxa at a particular taxonomic rank
 ```{r}
 # phyloseq
 get_taxa_unique(PHYExp, taxonomic.rank = rank_names(PHYExp)[2])
 # MicrobiomeExperiment
-unique(as.data.frame(MBExp@rowData)[2])
+unique(as.data.frame(rowData(MBExp))[2])
 ```
-#### `get_variable` | An individual sample variable vector/factor
+## `get_variable` | An individual sample variable vector/factor
 ```{r}
 # phyloseq
 get_variable(PHYExp, varName = "b")
 # MicrobiomeExperiment
 colData(MBExp)$b
 ```
-#### `nsamples` | Get the number of samples described by an object
+## `nsamples` | Get the number of samples described by an object
 ```{r}
 # phyloseq
 nsamples(PHYExp)
 # MicrobiomeExperiment
-ncol(MBExp@assays)
+ncol(assays(MBExp)[[1]])
 ```
-#### `ntaxa` | get the number of OTUs (taxa) described by an object
+## `ntaxa` | get the number of OTUs (taxa) described by an object
 ```{r}
 # phyloseq
 ntaxa(PHYExp)
 # MicrobiomeExperiment
-nrow(MBExp@assays)
+nrow(assays(MBExp)[[1]])
 ```
-#### `otu_table` | build or access otu_table objects
+## `otu_table` | build or access `otu_table` objects
 
 **NOTE: phyloseq does not extend SummarizedExperiment, so it does not have an "assays" slot, and therefore can only store one `otu_table` object**
 ```{r}
@@ -135,76 +146,75 @@ nrow(MBExp@assays)
 otu_table(PHYExp) 
 # MicrobiomeExperiment
 # no equivalent function for build, but for accession:
-MBExp@assays[[1]]
+assays(MBExp)[[1]]
 ```
-#### `rank_names` | Get the names of available taxonomic ranks
+## `rank_names` | Get the names of available taxonomic ranks
 ```{r}
 # phyloseq
 rank_names(PHYExp) # default behavior names ranks ta1, ta2, etc.
 # MicrobiomeExperiment
-MBExp@rowData@feature_order
+colnames(rowData(MBExp))
 ```
-#### `sample_data` | build or access `sample_data` objects
+## `sample_data` | build or access `sample_data` objects
 ```{r}
 # phyloseq
 sample_data(PHYExp)
 # MicrobiomeExperiment
 colData(MBExp)
 ```
-#### `sample_names` | The names of all samples
+## `sample_names` | The names of all samples
 ```{r}
 # phyloseq
 sample_names(PHYExp) # default behavior names samples sa1, sa2, etc.
 # MicrobiomeExperiment
-MBExp@colData$a
+colData(MBExp)$a
 ```
-#### `taxa_names` | The names of all taxa
+## `taxa_names` | The names of all taxa
 ```{r}
 # phyloseq
 taxa_names(PHYExp) # default behavior names samples sp1, sp2, etc.
 # MicrobiomeExperiment
-MBExp@rowData@hierarchy_tree$Species
+as.data.frame(rowData(MBExp))$Species
 ```
-#### `sample_sums` | The sum of the abundance values of each sample
+## `sample_sums` | The sum of the abundance values of each sample
 ```{r}
 # phyloseq
-sample_names(PHYExp) # default behavior names samples sa1, sa2, etc.
+sample_sums(PHYExp) # default behavior names samples sa1, sa2, etc.
 # MicrobiomeExperiment
-MBExp@colData[, 1]
+colSums(assays(MBExp)[[1]])
 ```
-#### `sample_variables` | The names of sample variables
+## `sample_variables` | The names of sample variables
 ```{r}
 # phyloseq
 sample_variables(PHYExp)
 # MicrobiomeExperiment
-colnames(MBExp@colData)
+colnames(colData(MBExp))
 ```
-#### `taxa_sums` | The sum of the abundance values of each taxa
+## `taxa_sums` | The sum of the abundance values of each taxa
 ```{r}
 # phyloseq
 taxa_sums(PHYExp)
 # MicrobiomeExperiment
-rowSums(MBExp@assays[[1]])
+rowSums(assays(MBExp)[[1]])
 ```
-#### `taxa_are_rows` | `TRUE` if taxa are row indices in `otu_table`
+## `taxa_are_rows` | `TRUE` if taxa are row indices in `otu_table`
 ```{r}
 # phyloseq
 taxa_are_rows(PHYExp)
 # MicrobiomeExperiment
-class(MBExp@rowData) == "MicrobiomeFeatures" # if the rowData from the MBExp object is of class "MicrobiomeFeatures" then the row contains taxa information
+class(rowData(MBExp)) == "MicrobiomeFeatures" # if the rowData from the MBExp object is of class "MicrobiomeFeatures" then the row contains taxa information
 ```
-#### `tax_table` | A taxonomy table
+## `tax_table` | A taxonomy table
 ```{r}
 # phyloseq
 tax_table(PHYExp)
 # MicrobiomeExperiment
-MBExp@rowData@hierarchy_tree # returns two additional columns: 'allFeatures' and 'otu_index'
+as.data.frame(rowData(MBExp)) # returns two additional columns: 'allFeatures' and 'otu_index'
 ```
-#### `phy_tree` | Access the tree contained in a MicrobiomeExperiment object
+## `phy_tree` | Access the tree contained in a MicrobiomeExperiment object
+No corresponding accessor function in MicrobiomeExperiment or MicrobiomeFeatures
 ```{r}
-# need to make corresponding phy_tree for phyloseq object
-
 # MicrobiomeExperiment
-MBExp@rowData
+MBExp@rowData 
 ```
 
