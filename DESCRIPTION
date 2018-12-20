@@ -30,3 +30,4 @@ Collate:
     'loadbiom.R'
     'makeMicrobiomeExperimentFromMRexperiment.R'
     'makeMicrobiomeExperimentFromphyloseq.R'
+VignetteBuilder: knitr
