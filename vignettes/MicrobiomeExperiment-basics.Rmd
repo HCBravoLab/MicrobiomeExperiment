@@ -20,6 +20,7 @@ output:
 
 ```{r load-packages, message=FALSE, warning=FALSE}
 library("MicrobiomeExperiment")
+library("phyloseq")
 ```
 
 
