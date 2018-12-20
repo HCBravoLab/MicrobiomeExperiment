@@ -1,6 +1,6 @@
 ## Class constructor
 .MicrobiomeExperiment <- setClass("MicrobiomeExperiment",
-    contains="SummarizedExperiment",
+    contains = c("TreeSummarizedExperiment"),
     representation(
         rowData="MicrobiomeFeatures"
     )
@@ -18,7 +18,7 @@
 #'
 #' @include MicrobiomeFeatures-class.R
 #' @importClassesFrom metagenomeFeatures mgFeatures
-#' @importClassesFrom SummarizedExperiment SummarizedExperiment
+#' @importClassesFrom TreeSummarizedExperiment TreeSummarizedExperiment
 #'
 #' @examples
 #'
@@ -43,13 +43,13 @@ MicrobiomeExperiment <- function(assays = SimpleList(),
     if (is.data.frame(rowData) || is(rowData, "DataFrame"))
         rowData <- as(rowData, "MicrobiomeFeatures")
 
-    SummarizedExperiment <-
-        if (!is(assays, "SummarizedExperiment"))
-            SummarizedExperiment(assays = assays, ...)
+    TreeSummarizedExperiment <-
+        if (!is(assays, "TreeSummarizedExperiment"))
+            TreeSummarizedExperiment(assays = assays, rowData = rowData, ...)
         else
             assays
 
-    .MicrobiomeExperiment(SummarizedExperiment, rowData = rowData)
+    .MicrobiomeExperiment(TreeSummarizedExperiment, rowData = rowData)
 }
 
 
