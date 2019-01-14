@@ -296,7 +296,7 @@ Command output not provided here to save time during compilation of the vignette
 
 ## Installation
 
-Please check [the MicrobiomeExperiment installation tutorial](http://joey711.github.com/MicrobiomeExperiment/install) for help with installation. This is likely to be the first place news and updated information about installation will be posted, as well. Also check out the rest of [the MicrobiomeExperiment homepage on GitHub](http://joey711.github.io/MicrobiomeExperiment/), as this is the best place to post issues, bug reports, feature requests, contribute code, etc.
+Please check *(link)* for help with installation. This is likely to be the first place news and updated information about installation will be posted, as well. Also check out the rest of [the MicrobiomeExperiment homepage on GitHub](https://github.com/HCBravoLab/MicrobiomeExperiment/), as this is the best place to post issues, bug reports, feature requests, contribute code, etc.
 
 ## Installing Parallel Backend
 
