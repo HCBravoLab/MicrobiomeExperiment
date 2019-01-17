@@ -1,7 +1,7 @@
 ---
 title: "MicrobiomeExperiment/phyloseq low-level data translation"
 author: "Domenick Braccia"
-date: "12/19/2018"
+date: "01/17/2018"
 output:
   BiocStyle::html_document:
     fig_height: 7
@@ -19,7 +19,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 # Introduction
-The purpose of this markdown file is to show how to use base, SummarizedExperiment or metagenomeFeatures operations to perform standard phyloseq functions.
+This vignette is to show how to use base, SummarizedExperiment or metagenomeFeatures operations to perform standard phyloseq functions detailed in [this github issue](https://github.com/HCBravoLab/MicrobiomeExperiment/issues/14).
 
 The dataset being used throughout this file is one of the examples from the [metagenomeFeatures package](http://bioconductor.org/packages/release/bioc/html/metagenomeFeatures.html) named `mock_mgF`.
 
@@ -45,10 +45,10 @@ counts <- matrix(sample(1:1000,numcounts,replace=TRUE), nr=nrow(mock_mgF), nc=4)
 # making rowData
 taxa_table <- as.data.frame(DataFrame(mock_mgF@listData))
 taxa_table <- taxa_table[, c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species", "OTU")]
-tree_index <- TreeIndex(taxa_table, feature_order = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species", "OTU"))
+#tree_index <- TreeIndex(taxa_table, feature_order = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species", "OTU")) #already done in MicrobiomeFeatures function
 
 # MicrobiomeExperiment object creation
-mbF <- MicrobiomeFeatures(taxa_table, tree = mock_mgF@refDbTree, seq = mock_mgF@refDbSeq, metadata = mock_mgF@metadata)
+mbF <- MicrobiomeFeatures(taxa_table, phyloTree = mock_mgF@refDbTree, seq = mock_mgF@refDbSeq, metadata = mock_mgF@metadata)
 MBExp <- MicrobiomeExperiment(assays=SimpleList(counts=counts),
                      rowData = mbF,
                      colData = pd)
@@ -80,14 +80,14 @@ PHYExp <- phyloseq(otu1, sam1, tax1)
 ## `[` | Standard extraction operator. Works on `otu_table`, `sample_data`, and `taxonomyTable`
 ```{r}
 # phyloseq
-otu_table(PHYExp)[, 1]
-sample_data(PHYExp)[, 1]
-tax_table(PHYExp)[, 1]
+otu_table(PHYExp)[, 1] # phyloseq
+assays(MBExp)[[1]][, 1] # MicrobiomeExperiment
 
-# MicrobiomeExperiment
-assays(MBExp)[[1]][, 1]
-colData(MBExp)[, 1]
-rowData(MBExp)@hierarchy_tree[, 2]
+sample_data(PHYExp)[, 1] # phyloseq
+colData(MBExp)[, 1] # MicrobiomeExperiment
+
+tax_table(PHYExp)[, 1] # phyloseq
+rowData(MBExp)@hierarchy_tree[, 2] # MicrobiomeExperiment
 ```
 ## `access` | General slot accessor function for MicrobiomeExperiment-package
 ```{r}
@@ -122,7 +122,7 @@ unique(as.data.frame(rowData(MBExp))[2])
 # phyloseq
 get_variable(PHYExp, varName = "b")
 # MicrobiomeExperiment
-colData(MBExp)$b
+colData(MBExp)[["b"]]
 ```
 ## `nsamples` | Get the number of samples described by an object
 ```{r}
@@ -167,14 +167,14 @@ colData(MBExp)
 # phyloseq
 sample_names(PHYExp) # default behavior names samples sa1, sa2, etc.
 # MicrobiomeExperiment
-colData(MBExp)$a
+colData(MBExp)[["a"]]
 ```
 ## `taxa_names` | The names of all taxa
 ```{r}
 # phyloseq
 taxa_names(PHYExp) # default behavior names samples sp1, sp2, etc.
 # MicrobiomeExperiment
-as.data.frame(rowData(MBExp))$Species
+splitAt(rowData(MBExp), selectedLevel = 8)
 ```
 ## `sample_sums` | The sum of the abundance values of each sample
 ```{r}
@@ -214,7 +214,6 @@ as.data.frame(rowData(MBExp)) # returns two additional columns: 'allFeatures' an
 ## `phy_tree` | Access the tree contained in a MicrobiomeExperiment object
 No corresponding accessor function in MicrobiomeExperiment or MicrobiomeFeatures
 ```{r}
-# MicrobiomeExperiment
-MBExp@rowData 
+phy_tree(PHYExp)
 ```
 
