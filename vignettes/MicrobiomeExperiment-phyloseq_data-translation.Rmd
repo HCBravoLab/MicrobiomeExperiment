@@ -27,10 +27,11 @@ The dataset being used throughout this file is one of the examples from the [met
 ```{r, warning=FALSE, message=FALSE}
 # PACKAGES
 library(S4Vectors)
-#library(metagenomeSeq) # only needed if mouseData is being used
+library(metagenomeSeq) # only needed if mouseData is being used
 library(metagenomeFeatures)
 library(TreeSummarizedExperiment)
 library(MicrobiomeExperiment)
+library(phyloseq)
 
 # from metagenomeFeatures
 data(mock_mgF)
@@ -48,20 +49,23 @@ taxa_table <- taxa_table[, c("Kingdom", "Phylum", "Class", "Order", "Family", "G
 #tree_index <- TreeIndex(taxa_table, feature_order = c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species", "OTU")) #already done in MicrobiomeFeatures function
 
 # MicrobiomeExperiment object creation
-mbF <- MicrobiomeFeatures(taxa_table, phyloTree = mock_mgF@refDbTree, seq = mock_mgF@refDbSeq, metadata = mock_mgF@metadata)
+mbF <- MicrobiomeFeatures(taxa_table, 
+                          phyloTree = mock_mgF@refDbTree, 
+                          seq = mock_mgF@refDbSeq, 
+                          metadata = mock_mgF@metadata)
 MBExp <- MicrobiomeExperiment(assays=SimpleList(counts=counts),
                      rowData = mbF,
                      colData = pd)
 
 # ## using mouseData ##
 # library(metagenomeSeq)
-# data(mouseData)
+# data(newMouseData)
 # 
-# counts <- MRcounts(mouseData)
-# taxTab <- fData(mouseData)
+# mouse_counts <- MRcounts(newMouseData)
+# mouse_taxTab <- fData(newMouseData)
 # 
-# tree <- TreeIndex(taxTab)
-# mbiome <- TreeSummarizedExperiment(SimpleList(counts=counts),
+# tree <- TreeIndex(mouse_taxTab)
+# mbiome <- TreeSummarizedExperiment(SimpleList(counts=mouse_counts),
 #                                    rowData=tree)
 # #####################
 
@@ -81,13 +85,13 @@ PHYExp <- phyloseq(otu1, sam1, tax1)
 ```{r}
 # phyloseq
 otu_table(PHYExp)[, 1] # phyloseq
-assays(MBExp)[[1]][, 1] # MicrobiomeExperiment
+counts(MBExp)[, 1] # MicrobiomeExperiment
 
 sample_data(PHYExp)[, 1] # phyloseq
 colData(MBExp)[, 1] # MicrobiomeExperiment
 
 tax_table(PHYExp)[, 1] # phyloseq
-rowData(MBExp)@hierarchy_tree[, 2] # MicrobiomeExperiment
+taxTable(MBExp)[, 1] # MicrobiomeExperiment
 ```
 ## `access` | General slot accessor function for MicrobiomeExperiment-package
 ```{r}
@@ -101,14 +105,14 @@ slot(MBExp, "assays")
 # phyloseq
 get_taxa(PHYExp, 1)
 # MicrobiomeExperiment
-assays(MBExp)[[1]][, 1]
+counts(MBExp)[, 1]
 ```
 ## `get_sample` | Abundance values of taxa `i` for all samples
 ```{r}
 # phyloseq
 get_sample(PHYExp, 1)
 # MicrobiomeExperiment
-assays(MBExp)[[1]][1, ]
+counts(MBExp)[1, ]
 ```
 ## `get_taxa_unique` | A unique vector of the observed taxa at a particular taxonomic rank
 ```{r}
@@ -129,14 +133,14 @@ colData(MBExp)[["b"]]
 # phyloseq
 nsamples(PHYExp)
 # MicrobiomeExperiment
-ncol(assays(MBExp)[[1]])
+ncol(assays(MBExp)[["counts"]])
 ```
 ## `ntaxa` | get the number of OTUs (taxa) described by an object
 ```{r}
 # phyloseq
 ntaxa(PHYExp)
 # MicrobiomeExperiment
-nrow(assays(MBExp)[[1]])
+nrow(assays(MBExp)[["counts"]])
 ```
 ## `otu_table` | build or access `otu_table` objects
 
@@ -146,7 +150,7 @@ nrow(assays(MBExp)[[1]])
 otu_table(PHYExp) 
 # MicrobiomeExperiment
 # no equivalent function for build, but for accession:
-assays(MBExp)[[1]]
+counts(MBExp)
 ```
 ## `rank_names` | Get the names of available taxonomic ranks
 ```{r}
@@ -209,11 +213,11 @@ class(rowData(MBExp)) == "MicrobiomeFeatures" # if the rowData from the MBExp ob
 # phyloseq
 tax_table(PHYExp)
 # MicrobiomeExperiment
-as.data.frame(rowData(MBExp)) # returns two additional columns: 'allFeatures' and 'otu_index'
+taxTable(MBExp) # returns two additional columns: 'allFeatures' and 'otu_index'
 ```
 ## `phy_tree` | Access the tree contained in a MicrobiomeExperiment object
 No corresponding accessor function in MicrobiomeExperiment or MicrobiomeFeatures
 ```{r}
-phy_tree(PHYExp)
+#phy_tree(PHYExp)
 ```
 
